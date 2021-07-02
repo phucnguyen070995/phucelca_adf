@@ -72,7 +72,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"Filename": {
-								"value": "{@pipeline().parameters.Filename}.csv",
+								"value": "@pipeline().parameters.Filename",
 								"type": "Expression"
 							}
 						}
@@ -84,7 +84,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"Filename": {
-								"value": "{@pipeline().parameters.Filename}.csv",
+								"value": "@pipeline().parameters.Filename",
 								"type": "Expression"
 							}
 						}
