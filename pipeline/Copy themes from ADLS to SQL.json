@@ -18,7 +18,8 @@
 					"source": {
 						"type": "DelimitedTextSource",
 						"storeSettings": {
-							"type": "HttpReadSettings"
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextReadSettings"
@@ -39,8 +40,8 @@
 								},
 								"sink": {
 									"name": "id",
-									"type": "String",
-									"physicalType": "nvarchar"
+									"type": "Int32",
+									"physicalType": "int"
 								}
 							},
 							{
@@ -63,8 +64,8 @@
 								},
 								"sink": {
 									"name": "parent_id",
-									"type": "String",
-									"physicalType": "nvarchar"
+									"type": "Int32",
+									"physicalType": "int"
 								}
 							}
 						],
