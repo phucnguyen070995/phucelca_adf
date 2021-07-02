@@ -1,13 +1,13 @@
 {
-	"name": "HTTP_Lego",
+	"name": "ADLS_Lego",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "Http_lego",
+			"referenceName": "ADLS_phucelcadls",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
 			"Filename": {
-				"type": "string",
+				"type": "String",
 				"defaultValue": "Filename"
 			}
 		},
@@ -15,20 +15,19 @@
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "HttpServerLocation",
-				"relativeUrl": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
 					"value": "@{dataset().Filename}.csv",
 					"type": "Expression"
-				}
+				},
+				"fileSystem": "logo"
 			},
 			"columnDelimiter": ",",
-			"rowDelimiter": "\n",
-			"compressionCodec": "gzip",
-			"compressionLevel": "Optimal",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": []
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

@@ -4,7 +4,8 @@
 		"description": "Copy themes.csv from http to ADLS",
 		"activities": [
 			{
-				"name": "Copy Themes form HTTP to ADLS",
+				"name": "Copy from HTTP to ADLS",
+				"description": "Copy file from Rebrickable to ADLS",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -17,11 +18,11 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "themes.csv.gz"
+						"value": "@{pipeline().parameters.Filename}.csv"
 					},
 					{
 						"name": "Destination",
-						"value": "logo//themes.csv"
+						"value": "logo//@{pipeline().parameters.Filename}.csv"
 					}
 				],
 				"typeProperties": {
@@ -60,26 +61,44 @@
 								"referenceName": "ABLB_phucelcablob",
 								"type": "LinkedServiceReference"
 							},
-							"path": "lego/errors/themes"
+							"path": "lego/errors/@{pipeline().parameters.Filename}.csv"
 						}
 					},
 					"dataIntegrationUnits": 2
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_xy8",
-						"type": "DatasetReference"
+						"referenceName": "HTTP_Lego",
+						"type": "DatasetReference",
+						"parameters": {
+							"Filename": {
+								"value": "@pipeline().parameters.Filename",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_xy8",
-						"type": "DatasetReference"
+						"referenceName": "ADLS_Lego",
+						"type": "DatasetReference",
+						"parameters": {
+							"Filename": {
+								"value": "@pipeline().parameters.Filename",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
 		],
 		"concurrency": 1,
+		"parameters": {
+			"Filename": {
+				"type": "String",
+				"defaultValue": "Filename"
+			}
+		},
 		"annotations": [
 			"Extract"
 		],
