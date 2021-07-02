@@ -6,34 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "qimia-dev-df"
-		},
-		"ABLB_phucelcablob_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'ABLB_phucelcablob'"
-		},
-		"ADLS_phucelcadls_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'ADLS_phucelcadls'"
-		},
-		"ASQL_phucelca_Entertainment_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'ASQL_phucelca_Entertainment'"
-		},
-		"ASQL_phucelca_database_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'ASQL_phucelca_database'"
-		},
-		"SQL_phucelca_Entertainment_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SQL_phucelca_Entertainment'"
-		},
-		"ADLS_phucelcadls_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://phucelcadls.dfs.core.windows.net"
-		},
-		"Http_lego_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://cdn.rebrickable.com/media/downloads/"
 		}
 	},
 	"variables": {
@@ -126,51 +98,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ADLS_Lego')]",
 				"[concat(variables('factoryId'), '/datasets/SqlServerEntertainment')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Lego_ADLS_to_ASQL_Themes')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Lego_ADLS_to_ASQL_Themes",
-						"description": "extract themes data from ADLS, add column and load into ASQL",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow1",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"ADLSLegoThemes": {},
-									"ASQLLegoThemes": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"annotations": [],
-				"lastPublishTime": "2021-06-30T06:41:51Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
 			]
 		},
 		{
@@ -283,8 +210,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/HTTP_Lego')]",
-				"[concat(variables('factoryId'), '/datasets/ADLS_Lego')]",
-				"[concat(variables('factoryId'), '/linkedServices/ABLB_phucelcablob')]"
+				"[concat(variables('factoryId'), '/datasets/ADLS_Lego')]"
 			]
 		},
 		{
@@ -304,8 +230,7 @@
 								"referenceName": "Lego_HTTP_to_ADLS",
 								"type": "PipelineReference"
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"waitOnCompletion": true
 						}
 					},
 					{
@@ -325,8 +250,7 @@
 								"referenceName": "Lego_ADLS_to_ASQL_Themes",
 								"type": "PipelineReference"
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"waitOnCompletion": true
 						}
 					}
 				],
@@ -334,100 +258,7 @@
 				"lastPublishTime": "2021-06-30T07:19:23Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Lego_HTTP_to_ADLS')]",
-				"[concat(variables('factoryId'), '/pipelines/Lego_ADLS_to_ASQL_Themes')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ASQL_lego_Themes')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ASQL_phucelca_database",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "lego",
-					"table": "themes"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ASQL_phucelca_database')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DestinationDataset_xy8')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ADLS_phucelcadls",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "themes.csv",
-						"fileSystem": "logo"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ADLS_phucelcadls')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceDataset_xy8')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Http_lego",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation",
-						"relativeUrl": "themes.csv.gz"
-					},
-					"columnDelimiter": ",",
-					"rowDelimiter": "\n",
-					"compressionCodec": "gzip",
-					"compressionLevel": "Optimal",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "parent_id",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Http_lego')]"
+				"[concat(variables('factoryId'), '/pipelines/Lego_HTTP_to_ADLS')]"
 			]
 		},
 		{
@@ -456,175 +287,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQL_phucelca_Entertainment')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABLB_phucelcablob')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Connect to ABLB account",
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('ABLB_phucelcablob_connectionString')]"
-				}
-			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ADLS_phucelcadls')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Connect to ADLS account",
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('ADLS_phucelcadls_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('ADLS_phucelcadls_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ASQL_phucelca_Entertainment')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "conncet to the phucelca_sql_database",
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('ASQL_phucelca_Entertainment_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ASQL_phucelca_database')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "connect to database",
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('ASQL_phucelca_database_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Http_lego')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Connect to Rebrickable",
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('Http_lego_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SQL_phucelca_Entertainment')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "coonection to the Entertainment database on SQL Server 2019 on phucelca PC",
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SQL_phucelca_Entertainment_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "phucelcaPCRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/phucelcaPCRuntime')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/USRuntime')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"description": "located in US region",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "East US",
-						"dataFlowProperties": {
-							"computeType": "General",
-							"coreCount": 8,
-							"timeToLive": 0,
-							"cleanup": false
-						}
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/phucelcaPCRuntime')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"description": "Self-hosted integration running on Phuc Pc",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DestinationDataset_xy8",
-								"type": "DatasetReference"
-							},
-							"name": "ADLSLegoThemes"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ASQL_lego_Themes",
-								"type": "DatasetReference"
-							},
-							"name": "ASQLLegoThemes"
-						}
-					],
-					"transformations": [
-						{
-							"name": "AddLoadteDate"
-						}
-					],
-					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ADLSLegoThemes\nADLSLegoThemes derive(load_date = currentDate()) ~> AddLoadteDate\nAddLoadteDate sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ASQLLegoThemes"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_xy8')]",
-				"[concat(variables('factoryId'), '/datasets/ASQL_lego_Themes')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HTTP_Lego')]",
@@ -661,9 +324,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Http_lego')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ADLS_Lego')]",
@@ -698,9 +359,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ADLS_phucelcadls')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HTTP_to_ADLS_then_SQLServer')]",
