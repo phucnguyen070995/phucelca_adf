@@ -1,5 +1,5 @@
 {
-	"name": "Copy themes from ADLS to SQL",
+	"name": "Copy from ADLS to SQL",
 	"properties": {
 		"activities": [
 			{
@@ -18,57 +18,21 @@
 					"source": {
 						"type": "DelimitedTextSource",
 						"storeSettings": {
-							"type": "HttpReadSettings",
-							"requestMethod": "GET"
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
 							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"sink": {
-						"type": "SqlServerSink"
+						"type": "SqlServerSink",
+						"tableOption": "autoCreate"
 					},
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "id",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "id",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "name",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "name",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "parent_id",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "parent_id",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							}
-						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -78,18 +42,40 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_xy8",
-						"type": "DatasetReference"
+						"referenceName": "ADLS_Lego",
+						"type": "DatasetReference",
+						"parameters": {
+							"Filename": {
+								"value": "@pipeline().parameters.ADLS_fileName",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "SqlServerEntertainment",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"SQLServer_fileName": {
+								"value": "@pipeline().parameters.SQLServer_fileName",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
 		],
+		"parameters": {
+			"ADLS_fileName": {
+				"type": "String",
+				"defaultValue": "ADLS_fileName"
+			},
+			"SQLServer_fileName": {
+				"type": "String",
+				"defaultValue": "SQLServer_fileName"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2021-07-01T09:34:31Z"
 	},

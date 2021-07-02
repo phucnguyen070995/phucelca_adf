@@ -1,5 +1,5 @@
 {
-	"name": "Lego_HTTP_to_ADLS_Themes",
+	"name": "Lego_HTTP_to_ADLS",
 	"properties": {
 		"description": "Copy themes.csv from http to ADLS",
 		"activities": [

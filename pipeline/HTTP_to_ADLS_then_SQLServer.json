@@ -1,5 +1,5 @@
 {
-	"name": "Orchestration_Lego",
+	"name": "HTTP_to_ADLS_then_SQLServer",
 	"properties": {
 		"description": "Orchestration pipeline executes pipelines to copy and transform data",
 		"activities": [
@@ -13,11 +13,17 @@
 						"referenceName": "Lego_HTTP_to_ADLS",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"Filename": {
+							"value": "@pipeline().parameters.fileName",
+							"type": "Expression"
+						}
+					}
 				}
 			},
 			{
-				"name": "Execute ADLS to ASQL",
+				"name": "Execute ADLS to SQLServer on phucelca PC",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -30,13 +36,29 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Lego_ADLS_to_ASQL_Themes",
+						"referenceName": "Copy from ADLS to SQL",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"ADLS_fileName": {
+							"value": "@pipeline().parameters.fileName",
+							"type": "Expression"
+						},
+						"SQLServer_fileName": {
+							"value": "@pipeline().parameters.fileName",
+							"type": "Expression"
+						}
+					}
 				}
 			}
 		],
+		"parameters": {
+			"fileName": {
+				"type": "string",
+				"defaultValue": "fileName"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2021-06-30T07:19:23Z"
 	},
