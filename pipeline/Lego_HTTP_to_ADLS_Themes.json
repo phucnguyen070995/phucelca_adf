@@ -71,23 +71,14 @@
 						"referenceName": "HTTP_Lego",
 						"type": "DatasetReference",
 						"parameters": {
-							"Filename": {
-								"value": "{@pipeline().parameters.Filename}.csv",
-								"type": "Expression"
-							}
+							"Filename": "Filename"
 						}
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ADLS_Lego",
-						"type": "DatasetReference",
-						"parameters": {
-							"Filename": {
-								"value": "{@pipeline().parameters.Filename}.csv",
-								"type": "Expression"
-							}
-						}
+						"referenceName": "DestinationDataset_xy8",
+						"type": "DatasetReference"
 					}
 				]
 			}
