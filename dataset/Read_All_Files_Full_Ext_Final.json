@@ -1,5 +1,5 @@
 {
-	"name": "Read_All_Files_Full_By_Ext_Final",
+	"name": "Read_All_Files_Full_Ext_Final",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ADLS_phucelcadls",
