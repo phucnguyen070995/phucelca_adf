@@ -23,7 +23,7 @@
 					"value": "@{dataset().fileNameCsv}.csv",
 					"type": "Expression"
 				},
-				"fileSystem": "fullextfinal"
+				"fileSystem": "fullbyextfinal"
 			},
 			"columnDelimiter": "\t",
 			"escapeChar": "\\",

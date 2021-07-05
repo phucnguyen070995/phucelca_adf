@@ -1,5 +1,5 @@
 {
-	"name": "Copy file full from ADLS to SQLServer",
+	"name": "Copy file full by from ADLS to SQLServer_copy1",
 	"properties": {
 		"activities": [
 			{
@@ -42,7 +42,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Read_All_Files_Full_Ext_Final",
+						"referenceName": "Read_All_Files_Full_By_Ext_Final",
 						"type": "DatasetReference",
 						"parameters": {
 							"fileNameCsv": {
@@ -54,7 +54,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Write_All_Files_Full_Ext",
+						"referenceName": "Write_All_Files_Full_By_Ext",
 						"type": "DatasetReference",
 						"parameters": {
 							"fileName": {
