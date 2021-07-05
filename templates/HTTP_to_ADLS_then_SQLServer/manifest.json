@@ -33,5 +33,8 @@
 	"author": "phuc.nguyenhoang@elca.vn",
 	"annotations": [],
 	"services": [],
+	"folder": {
+		"name": "Self Training"
+	},
 	"categories": []
 }
