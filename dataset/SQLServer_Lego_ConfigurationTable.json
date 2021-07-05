@@ -1,0 +1,17 @@
+{
+	"name": "SQLServer_Lego_ConfigurationTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQL_phucelca_Entertainment",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "etl",
+			"table": "ConfigurationTable"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
