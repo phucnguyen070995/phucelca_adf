@@ -30,7 +30,33 @@
 						"referenceName": "ADLS_Lego_ConfigurationFile",
 						"type": "DatasetReference"
 					},
-					"firstRowOnly": false
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "Execute Pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Lookup Configuration File",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "HTTP_to_ADLS_then_SQLServer",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"fileName": {
+							"value": "@activity('Lookup Configuration File').output.firstRow.SourceFileName",
+							"type": "Expression"
+						}
+					}
 				}
 			}
 		],
