@@ -54,11 +54,11 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "SqlServerEntertainment",
+						"referenceName": "Write_All_Files_Full_Ext",
 						"type": "DatasetReference",
 						"parameters": {
-							"SQLServer_fileName": {
-								"value": "@pipeline().parameters.SQLServer_fileName",
+							"fileName": {
+								"value": "@pipeline().parameters.fileName",
 								"type": "Expression"
 							}
 						}
