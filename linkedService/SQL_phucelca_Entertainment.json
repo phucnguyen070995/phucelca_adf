@@ -6,8 +6,8 @@
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "integrated security=False;data source=.;initial catalog=Entertainment;user id=sa",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlMDJiMjhlNy0xNmIyLTQ3MzEtYTlkMi1iYzgzMmRkN2UxZWYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"connectionString": "integrated security=False;data source=PC22079;initial catalog=Entertainment;user id=sa",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlNWI3M2U1ZS1jNzAyLTQwYmItYTNmNy1iYzdhOWQxM2U2ZGUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "phucelcaPCRuntime",
