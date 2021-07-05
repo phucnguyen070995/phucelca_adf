@@ -59,6 +59,9 @@
 				"defaultValue": "fileName"
 			}
 		},
+		"folder": {
+			"name": "Self Traning"
+		},
 		"annotations": [],
 		"lastPublishTime": "2021-06-30T07:19:23Z"
 	},

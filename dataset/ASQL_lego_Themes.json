@@ -5,6 +5,9 @@
 			"referenceName": "ASQL_phucelca_database",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Self Training"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [],

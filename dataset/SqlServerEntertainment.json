@@ -11,6 +11,9 @@
 				"defaultValue": "SQLServer_fileName"
 			}
 		},
+		"folder": {
+			"name": "Self Training"
+		},
 		"annotations": [],
 		"type": "SqlServerTable",
 		"schema": [],

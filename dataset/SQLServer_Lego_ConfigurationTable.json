@@ -5,6 +5,9 @@
 			"referenceName": "SQL_phucelca_Entertainment",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Self Training"
+		},
 		"annotations": [],
 		"type": "SqlServerTable",
 		"schema": [],

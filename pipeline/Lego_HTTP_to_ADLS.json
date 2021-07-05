@@ -61,7 +61,10 @@
 								"referenceName": "ABLB_phucelcablob",
 								"type": "LinkedServiceReference"
 							},
-							"path": "lego/errors/@{pipeline().parameters.Filename}.csv"
+							"path": {
+								"value": "lego/errors/@{pipeline().parameters.Filename}.csv",
+								"type": "Expression"
+							}
 						}
 					},
 					"dataIntegrationUnits": 2
@@ -98,6 +101,9 @@
 				"type": "String",
 				"defaultValue": "Filename"
 			}
+		},
+		"folder": {
+			"name": "Self Traning"
 		},
 		"annotations": [
 			"Extract"

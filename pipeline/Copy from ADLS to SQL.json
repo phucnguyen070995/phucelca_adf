@@ -76,6 +76,9 @@
 				"defaultValue": "SQLServer_fileName"
 			}
 		},
+		"folder": {
+			"name": "Self Traning"
+		},
 		"annotations": [],
 		"lastPublishTime": "2021-07-01T09:34:31Z"
 	},

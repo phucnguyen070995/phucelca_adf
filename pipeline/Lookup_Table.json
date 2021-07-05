@@ -53,6 +53,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "Self Traning"
+		},
 		"annotations": []
 	}
 }

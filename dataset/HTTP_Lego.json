@@ -11,6 +11,9 @@
 				"defaultValue": "Filename"
 			}
 		},
+		"folder": {
+			"name": "Self Training"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
