@@ -9,19 +9,19 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "DestinationDataset_xy8",
+						"referenceName": "Read_All_Files_Full_Ext_Final",
 						"type": "DatasetReference"
 					},
-					"name": "ADLSLegoThemes"
+					"name": "FullSource"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ASQL_lego_Themes",
+						"referenceName": "Write_All_Files_Full_Ext",
 						"type": "DatasetReference"
 					},
-					"name": "ASQLLegoThemes"
+					"name": "Load"
 				}
 			],
 			"transformations": [
@@ -29,7 +29,7 @@
 					"name": "AddLoadteDate"
 				}
 			],
-			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ADLSLegoThemes\nADLSLegoThemes derive(load_date = currentDate()) ~> AddLoadteDate\nAddLoadteDate sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ASQLLegoThemes"
+			"script": "parameters{\n\tfileName as string ($fileName)\n}\nsource(output(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdateFormats: ['MM/dd/yyyy'],\n\twildcardPaths:[($fileName)]) ~> FullSource\nFullSource derive(load_date = currentDate()) ~> AddLoadteDate\nAddLoadteDate sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Load"
 		}
 	}
 }
