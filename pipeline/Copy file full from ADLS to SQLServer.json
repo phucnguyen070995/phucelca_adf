@@ -33,6 +33,68 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Impact Area",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Impact Area",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ImpA Desc",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ImpA Desc",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Date_Time",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Date_Time",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "User",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "User",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Environment",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Environment",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
