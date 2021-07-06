@@ -1,5 +1,5 @@
 {
-	"name": "Copy file full by from ADLS to SQLServer_copy1",
+	"name": "Copy file full by from ADLS to SQLServer",
 	"properties": {
 		"activities": [
 			{
