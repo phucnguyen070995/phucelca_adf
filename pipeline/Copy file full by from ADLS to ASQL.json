@@ -27,7 +27,9 @@
 						}
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "AzureSqlSink",
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
@@ -56,7 +58,10 @@
 						"referenceName": "Full_By",
 						"type": "DatasetReference",
 						"parameters": {
-							"fileName": "fileName"
+							"fileName": {
+								"value": "@substring(pipeline().parameters.fileName, 0, add(length(pipeline().parameters.fileName), -4))",
+								"type": "Expression"
+							}
 						}
 					}
 				]

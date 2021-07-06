@@ -41,7 +41,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup Configuration File",
+						"activity": "Filter1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -50,7 +50,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup Configuration File').output.value",
+						"value": "@activity('Filter1').output.Value",
 						"type": "Expression"
 					},
 					"isSequential": false,
@@ -62,7 +62,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "Copy file full by from ADLS to SQLServer_copy1",
+									"referenceName": "Copy file full by from ADLS to ASQL",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": false,
@@ -75,6 +75,29 @@
 							}
 						}
 					]
+				}
+			},
+			{
+				"name": "Filter1",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Lookup Configuration File",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Configuration File').output.value",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(substring(item().Prop_0,0,16), 'ImpactStatement_')",
+						"type": "Expression"
+					}
 				}
 			}
 		],

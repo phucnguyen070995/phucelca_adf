@@ -62,7 +62,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "Copy file full by from ADLS to SQLServer_copy1",
+									"referenceName": "Copy file full by from ADLS to SQLServer",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": false,

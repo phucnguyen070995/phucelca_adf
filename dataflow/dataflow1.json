@@ -9,7 +9,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Read_All_Files_Full_Ext_Final",
+						"referenceName": "Full_By",
 						"type": "DatasetReference"
 					},
 					"name": "FullSource"
@@ -18,7 +18,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "SourceDataset_xy8",
+						"referenceName": "Full_By_DataFlow",
 						"type": "DatasetReference"
 					},
 					"name": "Load"
@@ -29,7 +29,7 @@
 					"name": "AlterRow1"
 				}
 			],
-			"script": "parameters{\n\tfileName as string ($fileName)\n}\nsource(output(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdateFormats: ['MM/dd/yyyy'],\n\twildcardPaths:[($fileName)]) ~> FullSource\nFullSource alterRow() ~> AlterRow1\nAlterRow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tid as string,\n\t\tname as string,\n\t\tparent_id as string\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Load"
+			"script": "parameters{\n\tfileName as string ($fileName)\n}\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table',\n\tdateFormats: ['MM/dd/yyyy'],\n\twildcardPaths:[($fileName)]) ~> FullSource\nFullSource alterRow() ~> AlterRow1\nAlterRow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> Load"
 		}
 	}
 }
