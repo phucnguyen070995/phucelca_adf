@@ -16,87 +16,35 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "select FileName from TrafficCop.@{pipeline().parameters.fileNameTrafficCop}\nwhere IsTracked = 0",
+							"type": "Expression"
 						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "DanhMuc_All_Files_Full",
+						"referenceName": "SQLServer_DIL_Dataset",
 						"type": "DatasetReference",
 						"parameters": {
-							"fileNameCsv": "fileNameCsv"
+							"fileName": {
+								"value": "@pipeline().parameters.fileNameTrafficCop",
+								"type": "Expression"
+							},
+							"schema": "TrafficCop"
 						}
 					},
 					"firstRowOnly": false
 				}
-			},
-			{
-				"name": "ForEach File",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Filter1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@activity('Lookup Configuration File').output.value",
-						"type": "Expression"
-					},
-					"isSequential": false,
-					"activities": [
-						{
-							"name": "Execute Copy all files from ADLS to SQLServer",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitOnCompletion": true,
-								"parameters": {
-									"fileName": {
-										"value": "@item().Prop_0",
-										"type": "Expression"
-									}
-								}
-							}
-						}
-					]
-				}
-			},
-			{
-				"name": "Filter1",
-				"type": "Filter",
-				"dependsOn": [
-					{
-						"activity": "Lookup Configuration File",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@activity('Lookup Configuration File').output.value",
-						"type": "Expression"
-					},
-					"condition": {
-						"value": "@equals(substring(item().Prop_0,0,16), 'ImpactStatement_')",
-						"type": "Expression"
-					}
-				}
 			}
 		],
+		"parameters": {
+			"fileNameTrafficCop": {
+				"type": "string",
+				"defaultValue": "fileNameTrafficCop"
+			}
+		},
 		"folder": {
 			"name": "BoardToDIL"
 		},
