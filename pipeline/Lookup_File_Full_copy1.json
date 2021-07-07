@@ -41,7 +41,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup Configuration File",
+						"activity": "Filter1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -71,6 +71,29 @@
 							}
 						}
 					]
+				}
+			},
+			{
+				"name": "Filter1",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Lookup Configuration File",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Configuration File').output.value",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(substring(item().Prop_0,0,16), 'ImpactStatement_')",
+						"type": "Expression"
+					}
 				}
 			}
 		],
