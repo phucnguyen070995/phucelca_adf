@@ -9,6 +9,10 @@
 			"fileName": {
 				"type": "String",
 				"defaultValue": "fileName"
+			},
+			"schema": {
+				"type": "string",
+				"defaultValue": "schema"
 			}
 		},
 		"folder": {
@@ -18,7 +22,10 @@
 		"type": "SqlServerTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "tem",
+			"schema": {
+				"value": "@dataset().schema",
+				"type": "Expression"
+			},
 			"table": {
 				"value": "@dataset().fileName",
 				"type": "Expression"
