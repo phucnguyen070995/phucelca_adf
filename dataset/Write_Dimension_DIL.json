@@ -1,0 +1,29 @@
+{
+	"name": "Write_Dimension_DIL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer_DIL",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileName": {
+				"type": "String",
+				"defaultValue": "fileName"
+			}
+		},
+		"folder": {
+			"name": "DIL"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "tem",
+			"table": {
+				"value": "@dataset().fileName",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
