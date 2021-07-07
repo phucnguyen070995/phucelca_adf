@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy file full from ADLS to SQLServer",
+				"name": "TraficCop From ADLS to SQLServer",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

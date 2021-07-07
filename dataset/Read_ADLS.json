@@ -1,5 +1,5 @@
 {
-	"name": "Read_All_Files_Full_Ext_Final_copy1",
+	"name": "Read_ADLS",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ADLS_phucelcadls",
@@ -9,6 +9,10 @@
 			"fileNameCsv": {
 				"type": "string",
 				"defaultValue": "fileNameCsv"
+			},
+			"schema": {
+				"type": "string",
+				"defaultValue": "schema"
 			}
 		},
 		"folder": {
@@ -23,26 +27,16 @@
 					"value": "@{dataset().fileNameCsv}.csv",
 					"type": "Expression"
 				},
-				"fileSystem": "fullextfinal"
+				"fileSystem": {
+					"value": "@dataset().schema",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": "\t",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"type": "String"
-			},
-			{
-				"type": "String"
-			},
-			{
-				"type": "String"
-			},
-			{
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
