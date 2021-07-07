@@ -1,5 +1,5 @@
 {
-	"name": "TraficCop From ADLS to SQLServer_copy1",
+	"name": "Other From ADLS to SQLServer_copy1",
 	"properties": {
 		"activities": [
 			{

@@ -1,5 +1,5 @@
 {
-	"name": "Write_Dimension_DIL",
+	"name": "SQLServer_DIL_Dataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SqlServer_DIL",

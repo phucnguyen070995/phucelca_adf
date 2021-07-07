@@ -1,5 +1,5 @@
 {
-	"name": "TraficCop From ADLS to SQLServer",
+	"name": "Copy From ADLS to SQLServer",
 	"properties": {
 		"activities": [
 			{
@@ -27,12 +27,25 @@
 						}
 					},
 					"sink": {
-						"type": "SqlServerSink",
-						"tableOption": "autoCreate"
+						"type": "SqlServerSink"
 					},
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FileName",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "FileName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -42,11 +55,15 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Read_All_Files_Full_By_Ext_Final",
+						"referenceName": "ADLS_Dataset",
 						"type": "DatasetReference",
 						"parameters": {
 							"fileNameCsv": {
-								"value": "@substring(pipeline().parameters.fileName, 0, add(length(pipeline().parameters.fileName), -4))",
+								"value": "@pipeline().parameters.srcFileName",
+								"type": "Expression"
+							},
+							"schema": {
+								"value": "@pipeline().parameters.srcSchema",
 								"type": "Expression"
 							}
 						}
@@ -54,11 +71,15 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Write_All_Files_Full_By_Ext",
+						"referenceName": "SQLServer_DIL_Dataset",
 						"type": "DatasetReference",
 						"parameters": {
 							"fileName": {
-								"value": "@substring(pipeline().parameters.fileName, 0, add(length(pipeline().parameters.fileName), -4))",
+								"value": "@pipeline().parameters.desFileName",
+								"type": "Expression"
+							},
+							"schema": {
+								"value": "@pipeline().parameters.desSchema",
 								"type": "Expression"
 							}
 						}
@@ -67,9 +88,21 @@
 			}
 		],
 		"parameters": {
-			"fileName": {
+			"srcFileName": {
 				"type": "string",
-				"defaultValue": "fileName"
+				"defaultValue": "srcFileName"
+			},
+			"srcSchema": {
+				"type": "string",
+				"defaultValue": "srcSchema"
+			},
+			"desFileName": {
+				"type": "string",
+				"defaultValue": "desFileName"
+			},
+			"desSchema": {
+				"type": "string",
+				"defaultValue": "desSchema"
 			}
 		},
 		"folder": {

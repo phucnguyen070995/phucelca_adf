@@ -1,5 +1,5 @@
 {
-	"name": "Read_ADLS",
+	"name": "ADLS_Dataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ADLS_phucelcadls",
