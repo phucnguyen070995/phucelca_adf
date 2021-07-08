@@ -60,7 +60,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "schemaTableType",
-								"value": "'fullextfinal'"
+								"value": "fullextfinal"
 							}
 						},
 						{
@@ -70,7 +70,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "nameTableType",
-								"value": "'Dimension'"
+								"value": "Dimension"
 							}
 						}
 					],
@@ -258,7 +258,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@activity('Lookup Mapping Table').output.value.Des",
+											"value": "@activity('Lookup Mapping Table').output.value[0].Des",
 											"type": "Expression"
 										},
 										"schema": "tem"
