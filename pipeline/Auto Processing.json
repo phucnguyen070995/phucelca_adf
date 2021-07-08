@@ -49,7 +49,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Lookup Mapping Table').output.value.TableType, 'F')",
+						"value": "@equals(first(activity('Lookup Mapping Table').output).value.TableType, 'F')",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
@@ -185,22 +185,60 @@
 									}
 								},
 								"sink": {
-									"type": "SqlServerSink",
-									"tableOption": "autoCreate"
+									"type": "SqlServerSink"
 								},
 								"enableStaging": false,
 								"translator": {
 									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "Impact Area",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "ImpactArea",
+												"type": "String",
+												"physicalType": "varchar"
+											}
+										},
+										{
+											"source": {
+												"name": "ImpA Desc",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "ImpactAreaDescr",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Date_Time",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "Date_Time",
+												"type": "DateTime",
+												"physicalType": "datetime"
+											}
+										}
+									],
 									"typeConversion": true,
 									"typeConversionSettings": {
 										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
+										"treatBooleanAsNumber": false,
+										"dateTimeFormat": "dd/MM/yyyy HH:mm:ss"
 									}
 								}
 							},
 							"inputs": [
 								{
-									"referenceName": "ADLS_Dataset",
+									"referenceName": "ADLS_Dataset_AP",
 									"type": "DatasetReference",
 									"parameters": {
 										"fileNameCsv": {
@@ -216,13 +254,14 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "Write_All_Files_Full_By_Ext",
+									"referenceName": "SQLServer_DIL_Dataset",
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@substring(pipeline().parameters.fileName, 0, add(length(pipeline().parameters.fileName), -4))",
+											"value": "@activity('Lookup Mapping Table').output.value.Des",
 											"type": "Expression"
-										}
+										},
+										"schema": "tem"
 									}
 								}
 							]
