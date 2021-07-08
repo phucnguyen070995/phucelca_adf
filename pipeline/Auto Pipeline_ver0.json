@@ -1,5 +1,5 @@
 {
-	"name": "Auto Pipeline_ver1",
+	"name": "Auto Pipeline_ver0",
 	"properties": {
 		"activities": [
 			{
@@ -312,39 +312,6 @@
 										"type": "Expression"
 									}
 								}
-							}
-						},
-						{
-							"name": "Lookup Mapping Table",
-							"type": "Lookup",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "7.00:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "SqlServerSource",
-									"sqlReaderQuery": {
-										"value": "select Des from TrafficCop.Mapping\nwhere IsActive = 1",
-										"type": "Expression"
-									},
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "SQLServer_DIL_Dataset",
-									"type": "DatasetReference",
-									"parameters": {
-										"fileName": "Mapping",
-										"schema": "TrafficCop"
-									}
-								},
-								"firstRowOnly": false
 							}
 						}
 					]
