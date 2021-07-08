@@ -3,117 +3,228 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy from SQLServer to SQLServer",
-				"type": "Copy",
+				"name": "Switch",
+				"type": "Switch",
 				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+					"on": {
+						"value": "@pipeline().parameters.Des",
+						"type": "Expression"
 					},
-					"sink": {
-						"type": "SqlServerSink",
-						"tableOption": "autoCreate"
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "Impact Area",
-									"type": "String",
-									"physicalType": "nvarchar"
+					"cases": [
+						{
+							"value": "ImpactArea",
+							"activities": [
+								{
+									"name": "Lookup Configuration File",
+									"type": "Lookup",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"sqlReaderQuery": {
+												"value": "select FileName from TrafficCop.@{variables('fileNameLookUp')}\nwhere IsTracked = 0;\nupdate TrafficCop.@{variables('fileNameLookUp')}\nset IsTracked = 1;",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "SQLServer_DIL_Dataset",
+											"type": "DatasetReference",
+											"parameters": {
+												"fileName": {
+													"value": "@variables('fileNameLookUp')",
+													"type": "Expression"
+												},
+												"schema": "TrafficCop"
+											}
+										},
+										"firstRowOnly": false
+									}
 								},
-								"sink": {
-									"name": "ImpactArea",
-									"type": "String",
-									"physicalType": "varchar"
+								{
+									"name": "ForEach FileName",
+									"type": "ForEach",
+									"dependsOn": [
+										{
+											"activity": "Lookup Configuration File",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"items": {
+											"value": "@activity('Lookup Configuration File').output.value",
+											"type": "Expression"
+										}
+									}
 								}
-							},
-							{
-								"source": {
-									"name": "ImpA Desc",
-									"type": "String",
-									"physicalType": "nvarchar"
-								},
-								"sink": {
-									"name": "ImpactAreaDescr",
-									"type": "String",
-									"physicalType": "nvarchar"
+							]
+						},
+						{
+							"value": "OperationType",
+							"activities": [
+								{
+									"name": "Execute OperationType",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pipeline1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true
+									}
 								}
-							},
-							{
-								"source": {
-									"name": "ImpA Long Desc",
-									"type": "String",
-									"physicalType": "nvarchar"
-								},
-								"sink": {
-									"name": "ImpactAreaLongDescr",
-									"type": "String",
-									"physicalType": "nvarchar"
+							]
+						},
+						{
+							"value": "OutcomeEnablingArea",
+							"activities": [
+								{
+									"name": "Execute OutcomeEnablingArea",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pipeline1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true
+									}
 								}
-							},
-							{
-								"source": {
-									"name": "Date_Time",
-									"type": "String",
-									"physicalType": "nvarchar"
-								},
-								"sink": {
-									"name": "Date_Time",
-									"type": "DateTime",
-									"physicalType": "datetime"
+							]
+						},
+						{
+							"value": "PlanCountry",
+							"activities": [
+								{
+									"name": "Execute PlanCountry",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pipeline1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true
+									}
 								}
-							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": true,
-							"dateTimeFormat": "dd/MM/yyyy HH:mm:ss"
+							]
+						},
+						{
+							"value": "Plan",
+							"activities": [
+								{
+									"name": "Execute Plan",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pipeline1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true
+									}
+								}
+							]
+						},
+						{
+							"value": "Strategy",
+							"activities": [
+								{
+									"name": "Execute Strategy",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pipeline1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true
+									}
+								}
+							]
+						},
+						{
+							"value": "ImpactStatement",
+							"activities": [
+								{
+									"name": "Execute ImpactStatement",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pipeline1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true
+									}
+								}
+							]
+						},
+						{
+							"value": "OutcomeStatement",
+							"activities": [
+								{
+									"name": "Execute OutcomeStatement",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pipeline1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true
+									}
+								}
+							]
+						},
+						{
+							"value": "OutputStatement",
+							"activities": [
+								{
+									"name": "Execute OutputStatement",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pipeline1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true
+									}
+								}
+							]
 						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "SQLServer_Board_Dataset",
-						"type": "DatasetReference",
-						"parameters": {
-							"fileName": {
-								"value": "@pipeline().parameters.fileName",
-								"type": "Expression"
-							},
-							"schema": "full_ext_final"
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "SQLServer_DIL_Dataset",
-						"type": "DatasetReference",
-						"parameters": {
-							"fileName": "ImpactArea",
-							"schema": "tem"
-						}
-					}
-				]
+					]
+				}
 			}
 		],
 		"parameters": {
-			"fileName": {
+			"Des": {
 				"type": "string",
-				"defaultValue": "fileName"
+				"defaultValue": "Des"
 			}
 		},
 		"folder": {
