@@ -179,7 +179,8 @@
 									"partitionOption": "None"
 								},
 								"sink": {
-									"type": "SqlServerSink"
+									"type": "SqlServerSink",
+									"tableOption": "autoCreate"
 								},
 								"enableStaging": false,
 								"translator": {
