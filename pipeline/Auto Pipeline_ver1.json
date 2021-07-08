@@ -36,8 +36,8 @@
 				}
 			},
 			{
-				"name": "Switch",
-				"type": "Switch",
+				"name": "ForEach Table",
+				"type": "ForEach",
 				"dependsOn": [
 					{
 						"activity": "Lookup Mapping Table",
@@ -48,172 +48,176 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"on": {
-						"value": "@substring(variables('fileNameItem'), 0, indexof(variables('fileNameItem'), '_'))",
+					"items": {
+						"value": "@activity('Lookup Mapping Table').output.value",
 						"type": "Expression"
 					},
-					"cases": [
+					"activities": [
 						{
-							"value": "ImpactArea"
-						},
-						{
-							"value": "OperationType",
-							"activities": [
-								{
-									"name": "Execute OperationType",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "pipeline1",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true
+							"name": "Switch",
+							"type": "Switch",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"on": {
+									"value": "@item().Des",
+									"type": "Expression"
+								},
+								"cases": [
+									{
+										"value": "ImpactArea"
+									},
+									{
+										"value": "OperationType",
+										"activities": [
+											{
+												"name": "Execute OperationType",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "pipeline1",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true
+												}
+											}
+										]
+									},
+									{
+										"value": "OutcomeEnablingArea",
+										"activities": [
+											{
+												"name": "Execute OutcomeEnablingArea",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "pipeline1",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true
+												}
+											}
+										]
+									},
+									{
+										"value": "PlanCountry",
+										"activities": [
+											{
+												"name": "Execute PlanCountry",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "pipeline1",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true
+												}
+											}
+										]
+									},
+									{
+										"value": "Plan",
+										"activities": [
+											{
+												"name": "Execute Plan",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "pipeline1",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true
+												}
+											}
+										]
+									},
+									{
+										"value": "Strategy",
+										"activities": [
+											{
+												"name": "Execute Strategy",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "pipeline1",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true
+												}
+											}
+										]
+									},
+									{
+										"value": "ImpactStatement",
+										"activities": [
+											{
+												"name": "Execute ImpactStatement",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "pipeline1",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true
+												}
+											}
+										]
+									},
+									{
+										"value": "OutcomeStatement",
+										"activities": [
+											{
+												"name": "Execute OutcomeStatement",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "pipeline1",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true
+												}
+											}
+										]
+									},
+									{
+										"value": "OutputStatement",
+										"activities": [
+											{
+												"name": "Execute OutputStatement",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "pipeline1",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true
+												}
+											}
+										]
 									}
-								}
-							]
-						},
-						{
-							"value": "OutcomeEnablingArea",
-							"activities": [
-								{
-									"name": "Execute OutcomeEnablingArea",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "pipeline1",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true
-									}
-								}
-							]
-						},
-						{
-							"value": "PlanCountry",
-							"activities": [
-								{
-									"name": "Execute PlanCountry",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "pipeline1",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true
-									}
-								}
-							]
-						},
-						{
-							"value": "Plan",
-							"activities": [
-								{
-									"name": "Execute Plan",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "pipeline1",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true
-									}
-								}
-							]
-						},
-						{
-							"value": "Strategy",
-							"activities": [
-								{
-									"name": "Execute Strategy",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "pipeline1",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true
-									}
-								}
-							]
-						},
-						{
-							"value": "ImpactStatement",
-							"activities": [
-								{
-									"name": "Execute ImpactStatement",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "pipeline1",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true
-									}
-								}
-							]
-						},
-						{
-							"value": "OutcomeStatement",
-							"activities": [
-								{
-									"name": "Execute OutcomeStatement",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "pipeline1",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true
-									}
-								}
-							]
-						},
-						{
-							"value": "OutputStatement",
-							"activities": [
-								{
-									"name": "Execute OutputStatement",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "pipeline1",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true
-									}
-								}
-							]
+								]
+							}
 						}
 					]
 				}
 			}
 		],
-		"variables": {
-			"fileNameLookUp": {
-				"type": "String",
-				"defaultValue": "fileNameLookUp"
-			},
-			"fileNameItem": {
-				"type": "String",
-				"defaultValue": "fileNameItem"
-			}
-		},
 		"folder": {
 			"name": "BoardToDIL_ver1"
 		},
