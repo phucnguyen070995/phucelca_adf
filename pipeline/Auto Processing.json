@@ -49,7 +49,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(first(activity('Lookup Mapping Table').output).value.TableType, 'F')",
+						"value": "@equals(activity('Lookup Mapping Table').output.value[0].TableType, 'F')",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
@@ -92,7 +92,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "nameTableType",
-								"value": "'Fact'"
+								"value": "Fact"
 							}
 						}
 					]
@@ -121,7 +121,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "select FileName from TrafficCop.@{variables('nameTableType')}\nwhere IsTracked = 0 and FileName like '@{activity('Lookup Mapping Table').output.value.Src}%'",
+							"value": "select FileName from TrafficCop.@{variables('nameTableType')}\nwhere IsTracked = 0 and FileName like '@{activity('Lookup Mapping Table').output.value[0].Src}%'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
