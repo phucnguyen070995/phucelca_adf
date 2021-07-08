@@ -193,9 +193,9 @@
 												"physicalType": "nvarchar"
 											},
 											"sink": {
-												"name": "Impact Area",
+												"name": "ImpactArea",
 												"type": "String",
-												"physicalType": "String"
+												"physicalType": "varchar"
 											}
 										},
 										{
@@ -205,9 +205,21 @@
 												"physicalType": "nvarchar"
 											},
 											"sink": {
-												"name": "ImpA Desc",
+												"name": "ImpactAreaDescr",
 												"type": "String",
-												"physicalType": "String"
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "ImpA Long Desc",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "ImpactAreaLongDescr",
+												"type": "String",
+												"physicalType": "nvarchar"
 											}
 										},
 										{
@@ -218,44 +230,8 @@
 											},
 											"sink": {
 												"name": "Date_Time",
-												"type": "String",
-												"physicalType": "String"
-											}
-										},
-										{
-											"source": {
-												"name": "User",
-												"type": "String",
-												"physicalType": "nvarchar"
-											},
-											"sink": {
-												"name": "User",
-												"type": "String",
-												"physicalType": "String"
-											}
-										},
-										{
-											"source": {
-												"name": "Environment",
-												"type": "String",
-												"physicalType": "nvarchar"
-											},
-											"sink": {
-												"name": "Environment",
-												"type": "String",
-												"physicalType": "String"
-											}
-										},
-										{
-											"source": {
-												"name": "ImpA Long Desc",
-												"type": "String",
-												"physicalType": "nvarchar"
-											},
-											"sink": {
-												"name": "ImpA Long Desc",
-												"type": "String",
-												"physicalType": "String"
+												"type": "DateTime",
+												"physicalType": "datetime"
 											}
 										}
 									],
