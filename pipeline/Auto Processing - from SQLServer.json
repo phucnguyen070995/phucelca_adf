@@ -188,38 +188,74 @@
 									"mappings": [
 										{
 											"source": {
-												"name": "Impact Area",
+												"name": "Outcome Area",
 												"type": "String",
 												"physicalType": "nvarchar"
 											},
 											"sink": {
-												"name": "ImpactArea",
+												"name": "Outcome Area",
 												"type": "String",
-												"physicalType": "varchar"
+												"physicalType": "String"
 											}
 										},
 										{
 											"source": {
-												"name": "ImpA Desc",
+												"name": "OtcA Desc",
 												"type": "String",
 												"physicalType": "nvarchar"
 											},
 											"sink": {
-												"name": "ImpactAreaDescr",
+												"name": "OtcA Desc",
 												"type": "String",
-												"physicalType": "nvarchar"
+												"physicalType": "String"
 											}
 										},
 										{
 											"source": {
-												"name": "ImpA Long Desc",
+												"name": "OtcA Long Desc",
 												"type": "String",
 												"physicalType": "nvarchar"
 											},
 											"sink": {
-												"name": "ImpactAreaLongDescr",
+												"name": "OtcA Long Desc",
+												"type": "String",
+												"physicalType": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "SDG Code",
 												"type": "String",
 												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "SDG Code",
+												"type": "String",
+												"physicalType": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "SDG Desc",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "SDG Desc",
+												"type": "String",
+												"physicalType": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "isENABLINGAREA",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "isENABLINGAREA",
+												"type": "String",
+												"physicalType": "String"
 											}
 										},
 										{
@@ -230,8 +266,32 @@
 											},
 											"sink": {
 												"name": "Date_Time",
-												"type": "DateTime",
-												"physicalType": "datetime"
+												"type": "String",
+												"physicalType": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "User",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "User",
+												"type": "String",
+												"physicalType": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "Environment",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "Environment",
+												"type": "String",
+												"physicalType": "String"
 											}
 										}
 									],
