@@ -31,10 +31,7 @@
 									"typeProperties": {
 										"source": {
 											"type": "SqlServerSource",
-											"sqlReaderQuery": {
-												"value": "select FileName from TrafficCop.@{variables('fileNameLookUp')}\nwhere IsTracked = 0;\nupdate TrafficCop.@{variables('fileNameLookUp')}\nset IsTracked = 1;",
-												"type": "Expression"
-											},
+											"sqlReaderQuery": "select FileName from TrafficCop.Dimension\nwhere IsTracked = 0 and FileName like 'ImpactArea%';\nupdate TrafficCop.Dimension\nset IsTracked = 1\nwhere IsTracked = 0 and FileName like 'ImpactArea%';",
 											"queryTimeout": "02:00:00",
 											"partitionOption": "None"
 										},
@@ -42,10 +39,7 @@
 											"referenceName": "SQLServer_DIL_Dataset",
 											"type": "DatasetReference",
 											"parameters": {
-												"fileName": {
-													"value": "@variables('fileNameLookUp')",
-													"type": "Expression"
-												},
+												"fileName": "Dimension",
 												"schema": "TrafficCop"
 											}
 										},
@@ -68,7 +62,116 @@
 										"items": {
 											"value": "@activity('Lookup Configuration File').output.value",
 											"type": "Expression"
-										}
+										},
+										"activities": [
+											{
+												"name": "Copy from ADLS to SQLServer",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "SqlServerSource",
+														"queryTimeout": "02:00:00",
+														"partitionOption": "None"
+													},
+													"sink": {
+														"type": "SqlServerSink",
+														"tableOption": "autoCreate"
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"mappings": [
+															{
+																"source": {
+																	"name": "Impact Area",
+																	"type": "String",
+																	"physicalType": "nvarchar"
+																},
+																"sink": {
+																	"name": "ImpactArea",
+																	"type": "String",
+																	"physicalType": "varchar"
+																}
+															},
+															{
+																"source": {
+																	"name": "ImpA Desc",
+																	"type": "String",
+																	"physicalType": "nvarchar"
+																},
+																"sink": {
+																	"name": "ImpactAreaDescr",
+																	"type": "String",
+																	"physicalType": "nvarchar"
+																}
+															},
+															{
+																"source": {
+																	"name": "ImpA Long Desc",
+																	"type": "String",
+																	"physicalType": "nvarchar"
+																},
+																"sink": {
+																	"name": "ImpactAreaLongDescr",
+																	"type": "String",
+																	"physicalType": "nvarchar"
+																}
+															},
+															{
+																"source": {
+																	"name": "Date_Time",
+																	"type": "String",
+																	"physicalType": "nvarchar"
+																},
+																"sink": {
+																	"name": "Date_Time",
+																	"type": "DateTime",
+																	"physicalType": "datetime"
+																}
+															}
+														],
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": true,
+															"dateTimeFormat": "dd/MM/yyyy HH:mm:ss"
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "SQLServer_Board_Dataset",
+														"type": "DatasetReference",
+														"parameters": {
+															"fileName": {
+																"value": "@item().FileName",
+																"type": "Expression"
+															},
+															"schema": "full_ext_final"
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "SQLServer_DIL_Dataset",
+														"type": "DatasetReference",
+														"parameters": {
+															"fileName": "ImpactArea",
+															"schema": "tem"
+														}
+													}
+												]
+											}
+										]
 									}
 								}
 							]
