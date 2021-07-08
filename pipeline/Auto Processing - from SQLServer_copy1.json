@@ -1,5 +1,5 @@
 {
-	"name": "Auto Processing - from ADSL",
+	"name": "Auto Processing - from SQLServer_copy1",
 	"properties": {
 		"activities": [
 			{
@@ -60,7 +60,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "schemaTableType",
-								"value": "fullextfinal"
+								"value": "full_ext_final"
 							}
 						},
 						{
@@ -82,7 +82,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "schemaTableType",
-								"value": "'fullbyextfinal'"
+								"value": "full_by_ext_final"
 							}
 						},
 						{
@@ -174,68 +174,88 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "AzureBlobFSReadSettings",
-										"recursive": true,
-										"enablePartitionDiscovery": false
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
-									}
+									"type": "SqlServerSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
 								},
 								"sink": {
-									"type": "SqlServerSink"
+									"type": "SqlServerSink",
+									"tableOption": "autoCreate"
 								},
 								"enableStaging": false,
 								"translator": {
 									"type": "TabularTranslator",
 									"mappings": [
 										{
-											"sink": {
-												"name": "Id",
-												"type": "Int32",
-												"physicalType": "int"
-											}
-										},
-										{
-											"sink": {
-												"name": "ABCCode",
+											"source": {
+												"name": "Impact Area",
 												"type": "String",
 												"physicalType": "nvarchar"
-											}
-										},
-										{
+											},
 											"sink": {
-												"name": "StrategyID",
+												"name": "Impact Area",
 												"type": "String",
-												"physicalType": "varchar"
+												"physicalType": "String"
 											}
 										},
 										{
-											"sink": {
-												"name": "StrategyType",
+											"source": {
+												"name": "ImpA Desc",
 												"type": "String",
 												"physicalType": "nvarchar"
-											}
-										},
-										{
+											},
 											"sink": {
-												"name": "StrategyDescr",
+												"name": "ImpA Desc",
 												"type": "String",
-												"physicalType": "nvarchar"
+												"physicalType": "String"
 											}
 										},
 										{
 											"source": {
 												"name": "Date_Time",
 												"type": "String",
-												"physicalType": "String"
+												"physicalType": "nvarchar"
 											},
 											"sink": {
 												"name": "Date_Time",
-												"type": "DateTime",
-												"physicalType": "datetime"
+												"type": "String",
+												"physicalType": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "User",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "User",
+												"type": "String",
+												"physicalType": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "Environment",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "Environment",
+												"type": "String",
+												"physicalType": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "ImpA Long Desc",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "ImpA Long Desc",
+												"type": "String",
+												"physicalType": "String"
 											}
 										}
 									],
@@ -249,10 +269,10 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ADLS_Dataset_AP",
+									"referenceName": "SQLServer_Board_Dataset",
 									"type": "DatasetReference",
 									"parameters": {
-										"fileNameCsv": {
+										"fileName": {
 											"value": "@item().FileName",
 											"type": "Expression"
 										},
@@ -269,7 +289,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@activity('Lookup Mapping Table').output.value[0].Des",
+											"value": "@activity('Lookup Mapping Table').output.value.Des",
 											"type": "Expression"
 										},
 										"schema": "tem"
@@ -298,7 +318,7 @@
 			}
 		},
 		"folder": {
-			"name": "BoardToDIL_ver0"
+			"name": "BoardToDIL_ver1"
 		},
 		"annotations": []
 	}

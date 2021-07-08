@@ -188,72 +188,24 @@
 									"mappings": [
 										{
 											"source": {
-												"name": "Outcome Area",
+												"name": "Impact Area",
 												"type": "String",
 												"physicalType": "nvarchar"
 											},
 											"sink": {
-												"name": "Outcome Area",
+												"name": "Impact Area",
 												"type": "String",
 												"physicalType": "String"
 											}
 										},
 										{
 											"source": {
-												"name": "OtcA Desc",
+												"name": "ImpA Desc",
 												"type": "String",
 												"physicalType": "nvarchar"
 											},
 											"sink": {
-												"name": "OtcA Desc",
-												"type": "String",
-												"physicalType": "String"
-											}
-										},
-										{
-											"source": {
-												"name": "OtcA Long Desc",
-												"type": "String",
-												"physicalType": "nvarchar"
-											},
-											"sink": {
-												"name": "OtcA Long Desc",
-												"type": "String",
-												"physicalType": "String"
-											}
-										},
-										{
-											"source": {
-												"name": "SDG Code",
-												"type": "String",
-												"physicalType": "nvarchar"
-											},
-											"sink": {
-												"name": "SDG Code",
-												"type": "String",
-												"physicalType": "String"
-											}
-										},
-										{
-											"source": {
-												"name": "SDG Desc",
-												"type": "String",
-												"physicalType": "nvarchar"
-											},
-											"sink": {
-												"name": "SDG Desc",
-												"type": "String",
-												"physicalType": "String"
-											}
-										},
-										{
-											"source": {
-												"name": "isENABLINGAREA",
-												"type": "String",
-												"physicalType": "nvarchar"
-											},
-											"sink": {
-												"name": "isENABLINGAREA",
+												"name": "ImpA Desc",
 												"type": "String",
 												"physicalType": "String"
 											}
@@ -290,6 +242,18 @@
 											},
 											"sink": {
 												"name": "Environment",
+												"type": "String",
+												"physicalType": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "ImpA Long Desc",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "ImpA Long Desc",
 												"type": "String",
 												"physicalType": "String"
 											}
@@ -325,7 +289,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@activity('Lookup Mapping Table').output.value[0].Des",
+											"value": "@activity('Lookup Mapping Table').output.value.Des",
 											"type": "Expression"
 										},
 										"schema": "tem"
@@ -354,7 +318,7 @@
 			}
 		},
 		"folder": {
-			"name": "BoardToDIL"
+			"name": "BoardToDIL_ver0"
 		},
 		"annotations": []
 	}
