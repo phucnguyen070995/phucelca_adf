@@ -35,14 +35,38 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "FileName",
+									"name": "Src",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "FileName",
+									"name": "Src",
 									"type": "String",
 									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Des",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Des",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "TableType",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "TableType",
+									"type": "String",
+									"physicalType": "char"
 								}
 							}
 						],

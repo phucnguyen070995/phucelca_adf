@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup Configuration File",
+				"name": "Lookup Mapping Table",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -36,18 +36,25 @@
 				}
 			},
 			{
-				"name": "Check Table Type_copy1",
+				"name": "Check Table Type",
 				"type": "IfCondition",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup Mapping Table",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(item().TableType, 'F')",
+						"value": "@equals(activity('Lookup Mapping Table').output.value.TableType, 'F')",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
 						{
-							"name": "Set variable schemaTableType D_copy1",
+							"name": "Set variable schemaTableType D",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"userProperties": [],
@@ -55,11 +62,21 @@
 								"variableName": "schemaTableType",
 								"value": "'fullextfinal'"
 							}
+						},
+						{
+							"name": "Set variable nameTableTypeD",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "nameTableType",
+								"value": "'Dimension'"
+							}
 						}
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Set variable schemaTableType_copy1",
+							"name": "Set variable schemaTableType",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"userProperties": [],
@@ -67,81 +84,31 @@
 								"variableName": "schemaTableType",
 								"value": "'fullbyextfinal'"
 							}
+						},
+						{
+							"name": "Set variable nameTableType",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "nameTableType",
+								"value": "'Fact'"
+							}
 						}
 					]
 				}
 			},
 			{
-				"name": "Copy file full from ADLS to SQLServer_copy1",
-				"type": "Copy",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
-					},
-					"sink": {
-						"type": "SqlServerSink",
-						"tableOption": "autoCreate"
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
+				"name": "Lookup Configuration File",
+				"type": "Lookup",
+				"dependsOn": [
 					{
-						"referenceName": "ADLS_Dataset",
-						"type": "DatasetReference",
-						"parameters": {
-							"fileNameCsv": {
-								"value": "@item().Src",
-								"type": "Expression"
-							},
-							"schema": {
-								"value": "@variables('schemaTableType')",
-								"type": "Expression"
-							}
-						}
+						"activity": "Check Table Type",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
-				"outputs": [
-					{
-						"referenceName": "Write_All_Files_Full_By_Ext",
-						"type": "DatasetReference",
-						"parameters": {
-							"fileName": {
-								"value": "@substring(pipeline().parameters.fileName, 0, add(length(pipeline().parameters.fileName), -4))",
-								"type": "Expression"
-							}
-						}
-					}
-				]
-			},
-			{
-				"name": "Lookup Configuration File_copy1_copy1",
-				"type": "Lookup",
-				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -154,7 +121,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "select Src, Des, TableType from TrafficCop.@{pipeline().parameters.fileNameTrafficCop}\nwhere IsActive = 1",
+							"value": "select FileName from TrafficCop.@{variables('nameTableType')}\nwhere IsTracked = 0 and FileName like '@{activity('Lookup Mapping Table').output.value.Src}%'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -165,13 +132,102 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"fileName": {
-								"value": "@pipeline().parameters.fileNameTrafficCop",
+								"value": "@variables('nameTableType')",
 								"type": "Expression"
 							},
 							"schema": "TrafficCop"
 						}
 					},
 					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach File",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup Configuration File",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Configuration File').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "Copy from ADLS to SQLServer",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "SqlServerSink",
+									"tableOption": "autoCreate"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ADLS_Dataset",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileNameCsv": {
+											"value": "@item().FileName",
+											"type": "Expression"
+										},
+										"schema": {
+											"value": "@variables('schemaTableType')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Write_All_Files_Full_By_Ext",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@substring(pipeline().parameters.fileName, 0, add(length(pipeline().parameters.fileName), -4))",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
 				}
 			}
 		],
@@ -185,6 +241,10 @@
 			"schemaTableType": {
 				"type": "String",
 				"defaultValue": "schemaTableType"
+			},
+			"nameTableType": {
+				"type": "String",
+				"defaultValue": "nameTableType"
 			}
 		},
 		"folder": {
