@@ -192,25 +192,36 @@
 									"type": "TabularTranslator",
 									"mappings": [
 										{
-											"source": {
-												"name": "Impact Area",
-												"type": "String",
-												"physicalType": "String"
-											},
 											"sink": {
-												"name": "ImpactArea",
+												"name": "Id",
+												"type": "Int32",
+												"physicalType": "int"
+											}
+										},
+										{
+											"sink": {
+												"name": "ABCCode",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"sink": {
+												"name": "StrategyID",
 												"type": "String",
 												"physicalType": "varchar"
 											}
 										},
 										{
-											"source": {
-												"name": "ImpA Desc",
-												"type": "String",
-												"physicalType": "String"
-											},
 											"sink": {
-												"name": "ImpactAreaDescr",
+												"name": "StrategyType",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"sink": {
+												"name": "StrategyDescr",
 												"type": "String",
 												"physicalType": "nvarchar"
 											}
@@ -231,7 +242,7 @@
 									"typeConversion": true,
 									"typeConversionSettings": {
 										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false,
+										"treatBooleanAsNumber": true,
 										"dateTimeFormat": "dd/MM/yyyy HH:mm:ss"
 									}
 								}
