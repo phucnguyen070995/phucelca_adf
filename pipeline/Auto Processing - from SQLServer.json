@@ -60,7 +60,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "schemaTableType",
-								"value": "fullextfinal"
+								"value": "full_ext_final"
 							}
 						},
 						{
@@ -82,7 +82,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "schemaTableType",
-								"value": "'fullbyextfinal'"
+								"value": "full_by_ext_final"
 							}
 						},
 						{
@@ -174,15 +174,9 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "AzureBlobFSReadSettings",
-										"recursive": true,
-										"enablePartitionDiscovery": false
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
-									}
+									"type": "SqlServerSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
 								},
 								"sink": {
 									"type": "SqlServerSink"
@@ -192,36 +186,37 @@
 									"type": "TabularTranslator",
 									"mappings": [
 										{
-											"sink": {
-												"name": "Id",
-												"type": "Int32",
-												"physicalType": "int"
-											}
-										},
-										{
-											"sink": {
-												"name": "ABCCode",
+											"source": {
+												"name": "Impact Area",
 												"type": "String",
 												"physicalType": "nvarchar"
-											}
-										},
-										{
+											},
 											"sink": {
-												"name": "StrategyID",
+												"name": "ImpactArea",
 												"type": "String",
 												"physicalType": "varchar"
 											}
 										},
 										{
+											"source": {
+												"name": "ImpA Desc",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
 											"sink": {
-												"name": "StrategyType",
+												"name": "ImpactAreaDescr",
 												"type": "String",
 												"physicalType": "nvarchar"
 											}
 										},
 										{
+											"source": {
+												"name": "ImpA Long Desc",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
 											"sink": {
-												"name": "StrategyDescr",
+												"name": "ImpactAreaLongDescr",
 												"type": "String",
 												"physicalType": "nvarchar"
 											}
@@ -230,7 +225,7 @@
 											"source": {
 												"name": "Date_Time",
 												"type": "String",
-												"physicalType": "String"
+												"physicalType": "nvarchar"
 											},
 											"sink": {
 												"name": "Date_Time",
@@ -249,10 +244,10 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ADLS_Dataset_AP",
+									"referenceName": "SQLServer_Board_Dataset",
 									"type": "DatasetReference",
 									"parameters": {
-										"fileNameCsv": {
+										"fileName": {
 											"value": "@item().FileName",
 											"type": "Expression"
 										},
