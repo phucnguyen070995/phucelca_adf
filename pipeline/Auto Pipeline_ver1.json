@@ -63,13 +63,7 @@
 									"referenceName": "Auto Processing - ImpactArea",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true,
-								"parameters": {
-									"Des": {
-										"value": "@item().Des",
-										"type": "Expression"
-									}
-								}
+								"waitOnCompletion": true
 							}
 						}
 					]

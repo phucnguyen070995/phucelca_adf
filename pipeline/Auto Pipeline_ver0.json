@@ -305,13 +305,7 @@
 									"referenceName": "Auto Processing - ImpactArea",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true,
-								"parameters": {
-									"fileName": {
-										"value": "@item().FileName",
-										"type": "Expression"
-									}
-								}
+								"waitOnCompletion": true
 							}
 						}
 					]
