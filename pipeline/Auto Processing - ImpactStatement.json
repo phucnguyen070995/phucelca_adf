@@ -80,6 +80,18 @@
 									"mappings": [
 										{
 											"source": {
+												"name": "Impact Statement",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "ImpactStatement",
+												"type": "String",
+												"physicalType": "varchar"
+											}
+										},
+										{
+											"source": {
 												"name": "Operation ABC",
 												"type": "String",
 												"physicalType": "nvarchar"
@@ -97,33 +109,81 @@
 												"physicalType": "nvarchar"
 											},
 											"sink": {
-												"name": "StrategyID",
+												"name": "StrategyCode",
 												"type": "String",
 												"physicalType": "varchar"
 											}
 										},
 										{
 											"source": {
-												"name": "Strategy Type",
+												"name": "Impact Area",
 												"type": "String",
 												"physicalType": "nvarchar"
 											},
 											"sink": {
-												"name": "StrategyType",
+												"name": "ImpactArea",
+												"type": "String",
+												"physicalType": "varchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Operation 2 char",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "2CharABCCode",
+												"type": "String",
+												"physicalType": "char"
+											}
+										},
+										{
+											"source": {
+												"name": "Plan",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "Plan",
+												"type": "String",
+												"physicalType": "varchar"
+											}
+										},
+										{
+											"source": {
+												"name": "Impact Statement Name",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "ImpactStatementShortDescr",
 												"type": "String",
 												"physicalType": "nvarchar"
 											}
 										},
 										{
 											"source": {
-												"name": "Description",
+												"name": "Impact Statement Long Descr",
 												"type": "String",
 												"physicalType": "nvarchar"
 											},
 											"sink": {
-												"name": "StrategyDescr",
+												"name": "ImpactStatementLongDescr",
 												"type": "String",
 												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "MSRP Code",
+												"type": "String",
+												"physicalType": "nvarchar"
+											},
+											"sink": {
+												"name": "MSRPCode",
+												"type": "String",
+												"physicalType": "varchar"
 											}
 										},
 										{
